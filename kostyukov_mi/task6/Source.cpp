@@ -9,12 +9,12 @@
 struct t_func
 {
 	char name[250];
-	void(*func)(mode1Res *, long long, long double, long long);
+	void(*func)(mode1Res *, long double, long double, long long);
 };
 struct t_func_series
 {
 	char name[250];
-	void(*func)(mode2Res *, long long, long long);
+	void(*func)(mode2Res *, long double, long long);
 };
 
 int main()
@@ -23,14 +23,14 @@ int main()
 	t_func t_funcs[] = 
 	{
 		"Cинус", t_sin,
-		"Коинус", t_cos,
+		"Коcинус", t_cos,
 		"Экспонента", t_exp,
 		"Арктангенс", t_arctg,
 	};
 	t_func_series t_funcs_series[] =
 	{
 		"Cинус", t_sin,
-		"Коинус", t_cos,
+		"Коcинус", t_cos,
 		"Экспонента", t_exp,
 		"Арктангенс", t_arctg,
 	};
@@ -42,7 +42,8 @@ int main()
 			printf("%d) %s\n", i + 1, t_funcs[i].name);
 		}
 		int func_id = 0, mode = 0;
-		long long x = 0, n = 0;
+		long double x = 0;
+		long long n = 0;
 		mode1Res resultMode1 = {};
 		mode2Res resultMode2 = {};
 		long double delta = 0;
@@ -55,7 +56,8 @@ int main()
 		{
 		case 1:
 			printf("Введите точку, точность вычисления, кол-во элементов ряда\n");
-			scanf("%ld %lf %ld", &x, &delta, &n);
+			scanf("%lf %lf %ld", &x, &delta, &n);
+			printf("\n%lf\n", x);
 			t_funcs[func_id - 1].func(&resultMode1, x, delta, n);
 			printf("Эталонное значение: %lf\n", resultMode1.referenceResult);
 			printf("Вычисленное значение: %lf\n", resultMode1.result);
@@ -64,10 +66,11 @@ int main()
 			break;
 		case 2:
 			printf("Введите точку, число экспериментов\n");
-			scanf("%d %d", &x, &n);
+			scanf("%lf %ld", &x, &n);
+			printf("\n%ld\n", n);
 			t_funcs_series[func_id - 1].func(&resultMode2, x, n);
 			printf("Кол-во слагаемых  Вычисленное значение Разница с эталонным значением\n"); 
-			for (int i = 1; i < resultMode2.NMax; i++)
+			for (int i = 1; i <= resultMode2.NMax; i++)
 			{
 				printf("%ld\t\t%lf\t\t%lf\n", i, resultMode2.results[i], resultMode2.deltas[i]);
 			}

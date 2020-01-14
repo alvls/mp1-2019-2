@@ -15,11 +15,11 @@ struct mode2Res
 	long double* deltas[26];
 };
 
-void t_sin(mode1Res *, long long, long double, long long);
-void t_sin(mode2Res *, long long, long long);
-void t_cos(mode1Res* , long long , long double, long long);
-void t_cos(mode2Res* , long long , long long);
-void t_exp(mode1Res* , long long , long double, long long);
-void t_exp(mode2Res* , long long , long long);
-void t_arctg(mode1Res* , long long , long double, long long);
-void t_arctg(mode2Res* , long long , long long);
+void t_sin(mode1Res *, long double, long double, long long);
+void t_sin(mode2Res *, long double, long long);
+void t_cos(mode1Res*, long double, long double, long long);
+void t_cos(mode2Res* , long double, long long);
+void t_exp(mode1Res*, long double, long double, long long);
+void t_exp(mode2Res* , long double, long long);
+void t_arctg(mode1Res*, long double, long double, long long);
+void t_arctg(mode2Res* , long double, long long);
