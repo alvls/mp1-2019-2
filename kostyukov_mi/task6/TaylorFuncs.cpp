@@ -105,6 +105,7 @@ void t_cos(mode2Res* res, long double x, long long NMax)
 	results[1] = 1;
 	long double delta;
 	long double deltas[26];
+	deltas[1] = 1 - referenceResult;
 	unsigned long long factorial = 2;
 	for (long long i = 2; i <= NMax; i++)
 	{
