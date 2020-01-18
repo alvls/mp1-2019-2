@@ -57,7 +57,6 @@ int main()
 		case 1:
 			printf("Введите точку, точность вычисления, кол-во элементов ряда\n");
 			scanf("%lf %lf %ld", &x, &delta, &n);
-			printf("\n%lf\n", x);
 			t_funcs[func_id - 1].func(&resultMode1, x, delta, n);
 			printf("Эталонное значение: %lf\n", resultMode1.referenceResult);
 			printf("Вычисленное значение: %lf\n", resultMode1.result);

@@ -6,24 +6,23 @@
 void t_sin(mode1Res *res, long double x, long double accruracy, long long n)
 {
 	long double referenceResult = sin(x);
-	long double result = 0;
+	long double result = x;
 	long double delta = 0;
-	unsigned long long factorial = 1;
-	for (long long i = 1; i <= n; i++)
+	long double buff = x;
+	for (long long i = 2; i <= n; i++)
 	{
-		if (i % 2 == 0)
-			result -= pow(x, 2 * i - 1) / factorial;
-		else
-			result += pow(x, 2 * i - 1) / factorial;
+
+		buff *= (-1) * (x * x) / ((2 * i - 2) * (2 * i - 1));
+
+		result += buff;
 
 		delta = fabs(referenceResult - result);
 
-		if ((delta < accruracy) || (2 * i + 1 > 21))
+		if (delta < accruracy)
 		{
 			n = i;
 			break;
 		}
-		factorial *= (2 * i) * (2 * i + 1);
 	}
 
 	(*res) = {
@@ -37,26 +36,22 @@ void t_sin(mode1Res *res, long double x, long double accruracy, long long n)
 void t_sin(mode2Res *res, long double x, long long NMax)
 {
 	long double referenceResult = sin(x);
-	long double result = 0;
+	long double result = x;
 	long double results[26];
+	results[1] = x;
 	long double delta;
 	long double deltas[26];
-	unsigned long long factorial = 1;
-	for (long long i = 1; i <= NMax; i++)
+	deltas[1] = fabs(x - referenceResult);
+	long double buff = x;
+	for (long long i = 2; i <= NMax; i++)
 	{
-		if (i % 2 == 0)
-			result -= pow(x, 2 * i - 1) / factorial;
-		else
-			result += pow(x, 2 * i - 1) / factorial;
+		buff *= (-1) * (x * x) / ((2 * i - 2) * (2 * i - 1));
+
+		result += buff;
+
 		results[i] = result;
 		delta = fabs(referenceResult - result);
 		deltas[i] = delta;
-		if (2 * i + 1 > 21)
-		{
-			NMax = i;
-			break;
-		}
-		factorial *= (2 * i) * (2 * i + 1);
 	}
 
 	res->referenceResult = referenceResult;
@@ -70,23 +65,20 @@ void t_cos(mode1Res* res, long double x, long double accruracy, long long n)
 	long double referenceResult = cos(x);
 	long double result = 1;
 	long double delta = 0;
-	unsigned long long factorial = 2;
+	long double buff = 1;
 	for (long long i = 2; i <= n; i++)
 	{
-		if (i % 2 == 0)
-			result -= pow(x, 2 * i - 2) / factorial;
-		else
-			result += pow(x, 2 * i - 2) / factorial;
+		buff *= (-1) * (x * x) / ((2 * i - 3) * (2 * i - 2));
+
+		result += buff;
 
 		delta = fabs(referenceResult - result);
 
-		if ((delta < accruracy) || (2 * i > 21))
+		if (delta < accruracy)
 		{
 			n = i;
 			break;
 		}
-
-		factorial *= (2 * i - 1) * (2 * i);
 	}
 
 	(*res) = {
@@ -106,23 +98,16 @@ void t_cos(mode2Res* res, long double x, long long NMax)
 	long double delta;
 	long double deltas[26];
 	deltas[1] = 1 - referenceResult;
-	unsigned long long factorial = 2;
+	long double buff = 1;
 	for (long long i = 2; i <= NMax; i++)
 	{
-		if (i % 2 == 0)
-			result -= pow(x, 2 * i - 2) / factorial;
-		else
-			result += pow(x, 2 * i - 2) / factorial;
+		buff *= (-1) * (x * x) / ((2 * i - 3) * (2 * i - 2));
+
+		result += buff;
 
 		results[i] = result;
 		delta = fabs(referenceResult - result);
 		deltas[i] = delta;
-		factorial *= (2*i - 1) * (2 * i);
-		if (2 * i > 21)
-		{
-			NMax = i;
-			break;
-		}
 	}
 
 	res->referenceResult = referenceResult;
@@ -137,8 +122,7 @@ void t_exp(mode1Res* res, long double x, long double accruracy, long long n)
 	long double buff = 1;
 	long double result = 1;
 	long double delta = 0;
-	unsigned long long factorial = 1;
-	for (long long i = 1; i <= n; i++)
+	for (long long i = 1; i < n; i++)
 	{
 		buff *= x / i;
 
@@ -152,7 +136,6 @@ void t_exp(mode1Res* res, long double x, long double accruracy, long long n)
 			break;
 		}
 
-		factorial *= i;
 	}
 
 	(*res) = {
@@ -174,14 +157,15 @@ void t_exp(mode2Res* res, long double x, long long NMax)
 	results[1] = 1;
 	deltas[1] = fabs(referenceResult - 1);
 	long long factorial = 1;
-	for (long long i = 1; i <= NMax; i++)
+	for (long long i = 1; i < NMax; i++)
 	{
-		result += pow(x, i) / factorial;
+		buff *= x / i;
+
+		result += buff;
 
 		results[i+1] = result;
 		delta = fabs(referenceResult - result);
 		deltas[i+1] = delta;
-		factorial *= i+1;
 	}
 
 	res->referenceResult = referenceResult;
